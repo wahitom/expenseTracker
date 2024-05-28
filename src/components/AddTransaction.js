@@ -1,15 +1,31 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { GlobalContext } from "../context/GlobalState";
 
 export const AddTransaction = () => {
   // use usestate to handleplaceholder text in iinputs
   const [text, setText] = useState("");
   const [amount, setAmount] = useState(0);
 
+  const { addTransaction } = useContext(GlobalContext);
+
+  const onSubmitForm = (e) => {
+    e.preventDefault();
+
+    const newTransaction = {
+      id: Math.floor(Math.random() * 1000000000),
+      text,
+      // use + to turn the amount into a number
+      amount: +amount,
+    };
+
+    addTransaction(newTransaction);
+  };
+
   return (
     <>
       <h3>Add New Transaction</h3>
-      <form>
+      <form onSubmit={onSubmitForm}>
         <div className="form-control">
           <label htmlFor="text">Text</label>
           <input
